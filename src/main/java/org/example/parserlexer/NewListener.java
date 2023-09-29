@@ -12,6 +12,20 @@ public class NewListener extends XMLParserBaseListener {
     }
 
     @Override public void enterElement(XMLParser.ElementContext ctx) {
+        String attribute = "";
+        String attributeValue = "";
+        /*if (ctx.attribute(0)!=null) {
+            attribute = ctx.attribute(0).Name().toString();
+            attributeValue = ctx.attribute(0).STRING().getText().replaceAll("\"","'");
+        }*/
+        StringBuilder attributeSb = new StringBuilder();
+        int i = 0;
+        while (ctx.attribute(i)!=null){
+            //attribute = ctx.attribute(i).Name().toString()+ctx.attribute(i).STRING().getText().replaceAll("\"","'");
+            attributeSb.append(" "+ctx.attribute(i).Name().toString()+ctx.attribute(i).STRING().getText().replaceAll("\"","'"));
+            i++;
+        }
+
         String element = ctx.Name(0).toString();
         if (mode==2) {
             System.out.print(",");
@@ -19,10 +33,15 @@ public class NewListener extends XMLParserBaseListener {
         }
         mode = 1;
         System.out.println("\"" + element + "\": ");
-        sb.append("\"" + element + "\": ");
+        if (attributeSb.toString().equals("")) {
+            sb.append("\"" + element + "\": ");
+        }else {
+            sb.append("\"" + element +" "+attributeSb.toString()+ "\": ");
+        }
+
         boolean isLeaf=true;
         XMLParser.ContentContext tmp = ctx.content();
-        if (tmp==null) {
+        /*if (tmp==null) {
             isLeaf = true;
         }
         else {
@@ -38,11 +57,10 @@ public class NewListener extends XMLParserBaseListener {
                     isLeaf = false;
                 }
             }
-        }
-
+        }*/
+        isLeaf = tmp == null || tmp.element() == null || tmp.element().isEmpty();
         if (isLeaf) {
             System.out.print("\" final node \"");
-            //sb.append("\" final node \"");
             sb.append(" \""+ctx.content().getText()+"\"");
         }
         else {
@@ -94,7 +112,16 @@ public class NewListener extends XMLParserBaseListener {
 
     }
     @Override public void enterAttribute(XMLParser.AttributeContext ctx) {
+
     }
+
+    @Override
+    public void exitAttribute(XMLParser.AttributeContext ctx) {
+        /*String attribute = ctx.getText();
+        System.out.println("attribute "+attribute);
+            sb.append(" "+attribute +" ");*/
+    }
+
     @Override public void exitDocument(XMLParser.DocumentContext ctx) {
         System.out.println("");
         sb.append("\n}");
