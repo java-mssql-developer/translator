@@ -8,7 +8,7 @@ public class NewListener extends XMLParserBaseListener {
     StringBuilder sb= new StringBuilder();
     int mode = 0; // 0 - start, 1 - enter, 2- exit
     @Override public void enterDocument(XMLParser.DocumentContext ctx) {
-        sb.append("{\n  ");
+        sb.append("[\n  ");
     }
 
     @Override public void enterElement(XMLParser.ElementContext ctx) {
@@ -32,40 +32,23 @@ public class NewListener extends XMLParserBaseListener {
             sb.append(",\n");
         }
         mode = 1;
-        System.out.println("\"" + element + "\": ");
+        System.out.println("{\"" + element + "\": ");
         if (attributeSb.toString().equals("")) {
-            sb.append("\"" + element + "\": ");
+            sb.append("{\"" + element + "\": ");
         }else {
-            sb.append("\"" + element +" "+attributeSb.toString()+ "\": ");
+            sb.append("{\"" + element +" "+attributeSb.toString()+ "\": ");
         }
 
         boolean isLeaf=true;
         XMLParser.ContentContext tmp = ctx.content();
-        /*if (tmp==null) {
-            isLeaf = true;
-        }
-        else {
-            List<XMLParser.ElementContext> tmp2 = tmp.element();
-            if (tmp2==null) {
-                isLeaf = true;
-            }
-            else {
-                if (tmp2.isEmpty()) {
-                    isLeaf = true;
-                }
-                else {
-                    isLeaf = false;
-                }
-            }
-        }*/
         isLeaf = tmp == null || tmp.element() == null || tmp.element().isEmpty();
         if (isLeaf) {
             System.out.print("\" final node \"");
             sb.append(" \""+ctx.content().getText()+"\"");
         }
         else {
-            System.out.print("{");
-            sb.append("{\n  ");
+            System.out.print("[");
+            sb.append("[\n  ");
         }
         // N. Wirth Algorithms plus Data structures = Programs
         // oblasti vidimosti realizujutsja s pomoshju vspomogatelnih stekov
@@ -77,7 +60,6 @@ public class NewListener extends XMLParserBaseListener {
         // DOM -> visitor
         //
     }
-    // sdelat' GIT
     @Override public void exitElement(XMLParser.ElementContext ctx) {
         String element = ctx.Name(0).toString();
         boolean isLeaf=true;
@@ -89,10 +71,14 @@ public class NewListener extends XMLParserBaseListener {
             List<XMLParser.ElementContext> tmp2 = tmp.element();
             if (tmp2==null) {
                 isLeaf = true;
+                System.out.println("}");
+                sb.append("}");
             }
             else {
                 if (tmp2.isEmpty()) {
                     isLeaf = true;
+                    System.out.println("}");
+                    sb.append("}");
                 }
                 else {
                     isLeaf = false;
@@ -100,8 +86,8 @@ public class NewListener extends XMLParserBaseListener {
             }
         }
         if (!isLeaf) {
-            System.out.println("}");
-            sb.append("}");
+            System.out.println("]}");
+            sb.append("]}");
         }
         mode = 2;
     }
@@ -124,7 +110,7 @@ public class NewListener extends XMLParserBaseListener {
 
     @Override public void exitDocument(XMLParser.DocumentContext ctx) {
         System.out.println("");
-        sb.append("\n}");
+        sb.append("\n]");
         System.out.println("-------------------RESULT--------------------");
         System.out.println(sb.toString());
         System.out.println("---------------------------------------------");
