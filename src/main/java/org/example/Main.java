@@ -17,7 +17,6 @@ public class Main {
         XMLParser parser = new XMLParser(tokens);
         ParseTree tree = parser.document();
         System.out.println(tree.toStringTree(parser));
-
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(new NewListener(), tree);
     }
