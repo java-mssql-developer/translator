@@ -16,7 +16,6 @@ public class Main {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         XMLParser parser = new XMLParser(tokens);
         ParseTree tree = parser.document();
-        System.out.println(tree.toStringTree(parser));
         ParseTreeWalker walker = new ParseTreeWalker();
         NewListener listener = new NewListener();
         walker.walk(listener, tree);

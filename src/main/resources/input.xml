@@ -4,7 +4,7 @@
         <author>OBrien, Tim</author>
         <title>MSXML3: A Comprehensive Guide</title>
         <genre>
-            <test> test </test>
+            <shortFormEmptyAttribute/>
             <test>abc12345</test>
             <newAttribute>some value</newAttribute>
         </genre>
@@ -12,7 +12,7 @@
         <publish_date>2000-12-01</publish_date>
         <description> description </description>
     </book>
-    <book id="bk112">
+    <book>
         <author>Galos, Mike</author>
         <title>Visual Studio 7: A Comprehensive Guide</title>
         <genre>Computer</genre>

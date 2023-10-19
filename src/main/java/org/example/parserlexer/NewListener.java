@@ -14,6 +14,7 @@ public class NewListener extends XMLParserBaseListener {
         StringBuilder attributeSb = new StringBuilder();
         int i = 0;
         while (ctx.attribute(i)!=null){
+            if (ctx.attribute(i).STRING().getText()!=null)
             attributeSb.append(" "+ctx.attribute(i).Name().toString()+ctx.attribute(i).STRING().getText().replaceAll("\"","'"));
             i++;
         }
@@ -31,7 +32,10 @@ public class NewListener extends XMLParserBaseListener {
         XMLParser.ContentContext tmp = ctx.content();
         isLeaf = tmp == null || tmp.element() == null || tmp.element().isEmpty();
         if (isLeaf) {
-            sb.append(" \""+ctx.content().getText()+"\"");
+            if (ctx.content()!=null)
+                sb.append(" \""+ctx.content().getText()+"\"");
+            else
+                sb.append("null");
         }
         else {
             sb.append("[\n  ");
