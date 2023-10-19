@@ -7,6 +7,9 @@ import java.util.*;
 public class NewListener extends XMLParserBaseListener {
     StringBuilder sb= new StringBuilder();
     int mode = 0; // 0 - start, 1 - enter, 2- exit
+    public StringBuilder getJson(){
+        return sb;
+    }
     @Override public void enterElement(XMLParser.ElementContext ctx) {
         StringBuilder attributeSb = new StringBuilder();
         int i = 0;
@@ -48,12 +51,5 @@ public class NewListener extends XMLParserBaseListener {
             sb.append("]}");
         }
         mode = 2;
-    }
-    @Override public void exitDocument(XMLParser.DocumentContext ctx) {
-        System.out.println("");
-        sb.append("\n");
-        System.out.println("-------------------RESULT-------------------\n");
-        System.out.println(sb.toString());
-        System.out.println("---------------------------------------------");
     }
 }

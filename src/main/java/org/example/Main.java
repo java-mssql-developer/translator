@@ -18,6 +18,8 @@ public class Main {
         ParseTree tree = parser.document();
         System.out.println(tree.toStringTree(parser));
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(new NewListener(), tree);
+        NewListener listener = new NewListener();
+        walker.walk(listener, tree);
+        System.out.println(listener.getJson().toString());
     }
 }
