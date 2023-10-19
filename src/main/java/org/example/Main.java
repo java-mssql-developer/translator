@@ -11,8 +11,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        CharStream input = CharStreams.fromFileName("C:\\Users\\student\\Documents\\XML2JSON\\xml.xml");
-        XMLLexer lexer = new XMLLexer(input);
+        CharStream xml = CharStreams.fromFileName("src/main/resources/input.xml");
+        XMLLexer lexer = new XMLLexer(xml);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         XMLParser parser = new XMLParser(tokens);
         ParseTree tree = parser.document();
